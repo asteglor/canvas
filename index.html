@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<title>App-canvas</title>
+</head>
+<body>
+<canvas id="app" width="300" height="300" style="border:1px solid black;"></canvas>
+<script type="text/javascript">
+
+var GameEngine;
+
+	var app = document.getElementById('app');
+	var context = app.getContext('2d');
+
+	// context.fillStyle = 'black';
+	// context.fillRect(10, 10, 15, 50); // strokeRect 
+
+	var x = 10;
+		y = 10;
+
+	function drawRect(){
+		context.fillStyle = 'black';
+		context.clearRect(0,0,300,300);
+		context.fillRect(x,y,50,50);
+	}
+	//var z = setInterval(function(){
+	//	drawRect();
+	//	x+= 5;
+	//}, 200)
+	var nextGameStep = (function(){
+		return requestAnimationFrame 	  ||
+				webkitReqestAnimationFrame||
+				mozReqstAnimationFrame	  ||
+				oReqestAnimationFrame     ||
+				msRequestAnimationFrame   ||
+				function(callback) {
+					seTimeout(callback, 1000/60);
+				};
+	})();
+
+	var gameEngineStart = function(callback) {
+		GameEngine = callback;
+	};
+
+	var gameLoop =function(){
+		drawRect();
+		x+= 1;
+		nextGameStep(gameLoop);
+	};
+	gameLoop();
+</script>			
+</body>
+</html>
