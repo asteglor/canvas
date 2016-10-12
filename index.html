@@ -42,14 +42,32 @@ var GameEngine;
 
 	var gameEngineStart = function(callback) {
 		GameEngine = callback;
+		gameEngineStep();
+	};
+	var gameEngineStep = function(){
+		GameEngine();
+		nextGameStep(gameEngineStep);
 	};
 
-	var gameLoop =function(){
+	var setGameEngine = function(callback){
+		GameEngine = callback;
+	}
+
+	var gameLoopRigth =function(){
 		drawRect();
 		x+= 1;
-		nextGameStep(gameLoop);
+		if(x >= 250){
+			setGameEngine(gameLoopLeft);
+		}
 	};
-	gameLoop();
+	var gameLoopLeft =function(){
+		drawRect();
+		x-= 1;
+		if(x < 50){
+			setGameEngine(gameLoopRigth);
+		}
+	};
+	gameEngineStart(gameLoopRigth);
 </script>			
 </body>
 </html>
